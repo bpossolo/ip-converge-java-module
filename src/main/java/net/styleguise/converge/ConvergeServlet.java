@@ -22,9 +22,9 @@ public class ConvergeServlet extends HttpServlet {
 		
 		super.init(config);
 		
-		String delegateClass = config.getInitParameter("covergeServiceDelegateClass");
+		String delegateClass = config.getInitParameter("convergeServiceDelegateClass");
 		if( delegateClass == null )
-			throw new ServletException("Init parameter [covergeServiceDelegateClass] must be specified");
+			throw new ServletException("Init parameter [convergeServiceDelegateClass] must be specified");
 		
 		try{
 			Class<?> clazz = Class.forName(delegateClass);
@@ -32,7 +32,7 @@ public class ConvergeServlet extends HttpServlet {
 			if( obj instanceof ConvergeServiceDelegate )
 				convergeService = new ConvergeService((ConvergeServiceDelegate)obj);
 			else
-				throw new ServletException("The [covergeServiceDelegateClass] must be a subclass of " + ConvergeServiceDelegate.class.getName());
+				throw new ServletException("The [convergeServiceDelegateClass] must be a subclass of " + ConvergeServiceDelegate.class.getName());
 		}
 		catch(InstantiationException e){
 			throw new ServletException("Unable to instantiate " + delegateClass + ". It should have a non-private, no-arg constructor", e);
