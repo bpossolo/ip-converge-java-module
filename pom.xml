@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>net.styleguise</groupId>
+  <artifactId>ip-converge-java-module</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>IP.Converge Java Module</name>
+  <description>A library for integrating a java application with the IP.Converge authentication system</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.codehaus.jackson</groupId>
+  		<artifactId>jackson-mapper-asl</artifactId>
+  		<version>1.9.7</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.kohsuke.redstone</groupId>
+  		<artifactId>redstone</artifactId>
+  		<version>1.1.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.mortbay.jetty</groupId>
+  		<artifactId>servlet-api-2.5</artifactId>
+  		<version>6.1.14</version>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.10</version>
+  		<scope>test</scope>
+  	</dependency>
+  </dependencies>
+</project>
