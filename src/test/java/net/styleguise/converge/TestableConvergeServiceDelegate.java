@@ -86,7 +86,8 @@ public class TestableConvergeServiceDelegate implements ConvergeServiceDelegate 
 	}
 	
 	@Override
-	public ConvergeHandshakeInfo getConvergeHandshakeInfo() {
+	public ConvergeHandshakeInfo getConvergeHandshakeInfo(String authKey,
+			int productId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

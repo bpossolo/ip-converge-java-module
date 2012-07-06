@@ -412,7 +412,13 @@ public class ConvergeService {
 	
 	void authenticateRequest(ConvergeApiRequest request){
 		
-		ConvergeHandshakeInfo registeredInfo = delegate.getConvergeHandshakeInfo();
+		ConvergeHandshakeInfo registeredInfo = 
+			delegate.getConvergeHandshakeInfo(request.getAuthKey(), request.getProductId());
+		
+		if( registeredInfo == null ){
+			log.warning("ConvergeServiceDelegate.getConvergeHandshakeInfo() returned null. The application developer must implement this method");
+			throw new ConvergeException("Unable to authenticate XML-RPC request");
+		}
 		
 		if( ! registeredInfo.getAuthKey().equals(request.getAuthKey()) )
 			throw new ConvergeException("Request auth key [" + request.getAuthKey() + "] does not match registered auth key");

@@ -1,6 +1,9 @@
 package net.styleguise.converge;
 
-public class ConvergeHandshakeInfo {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class ConvergeHandshakeInfo implements Serializable {
 	
 	private String authKey;
 	
