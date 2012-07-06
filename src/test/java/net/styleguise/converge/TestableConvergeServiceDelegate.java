@@ -84,5 +84,11 @@ public class TestableConvergeServiceDelegate implements ConvergeServiceDelegate 
 	public String getPHPUtilUrlEndpoint() {
 		return "http://www.styleguise.net/utils/json-to-php-array.php";
 	}
+	
+	@Override
+	public ConvergeHandshakeInfo getConvergeHandshakeInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

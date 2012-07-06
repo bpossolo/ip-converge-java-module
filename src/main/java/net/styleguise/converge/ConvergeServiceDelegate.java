@@ -45,6 +45,8 @@ public interface ConvergeServiceDelegate {
 	
 	String getProductCode();
 	
+	ConvergeHandshakeInfo getConvergeHandshakeInfo();
+	
 	/**
 	 * The URL of the php script which converts json into base-64 encoded php arrays.
 	 */

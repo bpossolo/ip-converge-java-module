@@ -21,6 +21,10 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class ConvergeService {
 	
+	//----------------------------------------------------------------------
+	//Class variables
+	//----------------------------------------------------------------------
+	
 	private static final Logger log = Logger.getLogger(ConvergeService.class.getName());
 	
 	/**
@@ -29,11 +33,23 @@ public class ConvergeService {
 	 */
 	private static final ObjectMapper objectMapper = new ObjectMapper();
 	
+	//----------------------------------------------------------------------
+	//Member variables
+	//----------------------------------------------------------------------
+	
 	private ConvergeServiceDelegate delegate;
+	
+	//----------------------------------------------------------------------
+	//Constructors
+	//----------------------------------------------------------------------
 	
 	ConvergeService(ConvergeServiceDelegate delegate){
 		this.delegate = delegate;
 	}
+	
+	//----------------------------------------------------------------------
+	//Public methods
+	//----------------------------------------------------------------------
 	
 	public String convergeInfoXml(){
 		
@@ -131,8 +147,10 @@ public class ConvergeService {
 		
 		OnMemberDeleteRequest req = new OnMemberDeleteRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
+		
+		authenticateRequest(req);
 		
 		boolean success = delegate.onMemberDelete(req);
 		
@@ -151,9 +169,11 @@ public class ConvergeService {
 		
 		OnPasswordChangeRequest req = new OnPasswordChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
 		req.setHashedPassword((String)params.get("hashed_password"));
+		
+		authenticateRequest(req);
 		
 		boolean success = delegate.onPasswordChange(req);
 		
@@ -172,10 +192,12 @@ public class ConvergeService {
 		
 		OnEmailChangeRequest req = new OnEmailChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
 		req.setOldEmail((String)params.get("old_email_address"));
 		req.setNewEmail((String)params.get("new_email_address"));
+		
+		authenticateRequest(req);
 		
 		boolean success = delegate.onEmailChange(req);
 		
@@ -194,10 +216,12 @@ public class ConvergeService {
 		
 		OnUsernameChangeRequest req = new OnUsernameChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
 		req.setOldUsername((String)params.get("old_username"));
 		req.setNewUsername((String)params.get("new_username"));
+		
+		authenticateRequest(req);
 		
 		boolean success = delegate.onUsernameChange(req);
 		
@@ -216,8 +240,10 @@ public class ConvergeService {
 		
 		OnValidateRequest req = new OnValidateRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
+		
+		authenticateRequest(req);
 		
 		boolean success = delegate.onValidate(req);
 		
@@ -236,7 +262,9 @@ public class ConvergeService {
 		
 		ConvergeApiRequest req = new ConvergeApiRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
+		
+		authenticateRequest(req);
 		
 		GetMembersInfoResponse response = delegate.getMembersInfo(req);
 		
@@ -247,7 +275,7 @@ public class ConvergeService {
 		return result;
 	}
 	
-	public Map<String,Object> importMembers(Map<String,Object> params) throws ConvergeException {
+	public Map<String,Object> importMembers(Map<String,Object> params) {
 		
 		try {
 			log.info("Import members");
@@ -256,9 +284,11 @@ public class ConvergeService {
 			
 			ImportMembersRequest req = new ImportMembersRequest();
 			req.setAuthKey((String)params.get("auth_key"));
-			req.setProductId((Integer)params.get("product_id"));
+			req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 			req.setOffset((Integer)params.get("limit_a"));
 			req.setLimit((Integer)params.get("limit_b"));
+			
+			authenticateRequest(req);
 			
 			ImportMembersResponse response = delegate.importMembers(req);
 			response.setComplete(1);
@@ -276,7 +306,7 @@ public class ConvergeService {
 		}
 	}
 	
-	public Map<String,Object> convergeLogIn(Map<String,Object> params) throws ConvergeException {
+	public Map<String,Object> convergeLogIn(Map<String,Object> params) {
 		
 		log.info("Converge login");
 		if( log.isLoggable(Level.FINE) )
@@ -284,7 +314,7 @@ public class ConvergeService {
 		
 		ConvergeLoginRequest req = new ConvergeLoginRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setEmail((String)params.get("email_address"));
 		req.setUsername((String)params.get("username"));
 		req.setHashedPassword((String)params.get("hashed_password"));
@@ -292,6 +322,8 @@ public class ConvergeService {
 		req.setJoinDate((String)params.get("unix_join_date"));
 		req.setTimezone((String)params.get("timezone"));
 		req.setDaylightSavingsTimeAutocorrect((String)params.get("dst_autocorrect"));
+		
+		authenticateRequest(req);
 		
 		ConvergeLoginResponse response = delegate.convergeLogin(req);
 		
@@ -306,7 +338,7 @@ public class ConvergeService {
 		return result;
 	}
 	
-	public Map<String,Object> convergeLogOut(Map<String,Object> params) throws ConvergeException {
+	public Map<String,Object> convergeLogOut(Map<String,Object> params) {
 		
 		log.info("Converge logout");
 		if( log.isLoggable(Level.FINE) )
@@ -314,8 +346,10 @@ public class ConvergeService {
 		
 		ConvergeLogoutRequest req = new ConvergeLogoutRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((Integer)params.get("product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
 		req.setAuth((String)params.get("auth"));
+		
+		authenticateRequest(req);
 		
 		ConvergeLogoutResponse response = delegate.convergeLogout(req);
 		
@@ -327,7 +361,11 @@ public class ConvergeService {
 		return result;
 	}
 	
-	String encodeCookies(List<ConvergeCookie> cookies) throws ConvergeException {
+	//----------------------------------------------------------------------
+	//Package protected methods (for testability)
+	//----------------------------------------------------------------------
+	
+	String encodeCookies(List<ConvergeCookie> cookies) {
 		try{
 			String json = objectMapper.writeValueAsString(cookies);
 			return convertJsonToEncodedPhpArray(json);
@@ -370,5 +408,16 @@ public class ConvergeService {
 		log.fine("Received encoded php array");
 		log.fine(encodedPhpArray);
 		return encodedPhpArray;
+	}
+	
+	void authenticateRequest(ConvergeApiRequest request){
+		
+		ConvergeHandshakeInfo registeredInfo = delegate.getConvergeHandshakeInfo();
+		
+		if( ! registeredInfo.getAuthKey().equals(request.getAuthKey()) )
+			throw new ConvergeException("Request auth key [" + request.getAuthKey() + "] does not match registered auth key");
+		
+		if( registeredInfo.getProductId() != request.getProductId() )
+			throw new ConvergeException("Request product id [" + request.getProductId() + "] does not match registered product id");
 	}
 }

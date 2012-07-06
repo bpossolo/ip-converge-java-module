@@ -1,7 +1,7 @@
 package net.styleguise.converge;
 
 @SuppressWarnings("serial")
-public class ConvergeException extends Exception {
+public class ConvergeException extends RuntimeException {
 	
 	public ConvergeException(String message) {
 		super(message);
