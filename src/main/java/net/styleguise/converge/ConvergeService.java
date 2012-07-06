@@ -131,7 +131,7 @@ public class ConvergeService {
 		
 		OnMemberDeleteRequest req = new OnMemberDeleteRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		
 		boolean success = delegate.onMemberDelete(req);
@@ -151,7 +151,7 @@ public class ConvergeService {
 		
 		OnPasswordChangeRequest req = new OnPasswordChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		req.setHashedPassword((String)params.get("hashed_password"));
 		
@@ -172,7 +172,7 @@ public class ConvergeService {
 		
 		OnEmailChangeRequest req = new OnEmailChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		req.setOldEmail((String)params.get("old_email_address"));
 		req.setNewEmail((String)params.get("new_email_address"));
@@ -194,7 +194,7 @@ public class ConvergeService {
 		
 		OnUsernameChangeRequest req = new OnUsernameChangeRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		req.setOldUsername((String)params.get("old_username"));
 		req.setNewUsername((String)params.get("new_username"));
@@ -216,7 +216,7 @@ public class ConvergeService {
 		
 		OnValidateRequest req = new OnValidateRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		
 		boolean success = delegate.onValidate(req);
@@ -236,7 +236,7 @@ public class ConvergeService {
 		
 		ConvergeApiRequest req = new ConvergeApiRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		
 		GetMembersInfoResponse response = delegate.getMembersInfo(req);
 		
@@ -256,7 +256,7 @@ public class ConvergeService {
 			
 			ImportMembersRequest req = new ImportMembersRequest();
 			req.setAuthKey((String)params.get("auth_key"));
-			req.setProductId((String)params.get("product_id"));
+			req.setProductId((Integer)params.get("product_id"));
 			req.setOffset((Integer)params.get("limit_a"));
 			req.setLimit((Integer)params.get("limit_b"));
 			
@@ -284,7 +284,7 @@ public class ConvergeService {
 		
 		ConvergeLoginRequest req = new ConvergeLoginRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setEmail((String)params.get("email_address"));
 		req.setUsername((String)params.get("username"));
 		req.setHashedPassword((String)params.get("hashed_password"));
@@ -314,7 +314,7 @@ public class ConvergeService {
 		
 		ConvergeLogoutRequest req = new ConvergeLogoutRequest();
 		req.setAuthKey((String)params.get("auth_key"));
-		req.setProductId((String)params.get("product_id"));
+		req.setProductId((Integer)params.get("product_id"));
 		req.setAuth((String)params.get("auth"));
 		
 		ConvergeLogoutResponse response = delegate.convergeLogout(req);

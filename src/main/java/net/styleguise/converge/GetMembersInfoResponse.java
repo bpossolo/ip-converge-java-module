@@ -4,7 +4,7 @@ public class GetMembersInfoResponse {
 	
 	private int count;
 	
-	private String lastId;
+	private int lastId;
 
 	public int getCount() {
 		return count;
@@ -14,11 +14,11 @@ public class GetMembersInfoResponse {
 		this.count = count;
 	}
 
-	public String getLastId() {
+	public int getLastId() {
 		return lastId;
 	}
 
-	public void setLastId(String lastId) {
+	public void setLastId(int lastId) {
 		this.lastId = lastId;
 	}
 

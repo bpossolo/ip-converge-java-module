@@ -4,7 +4,7 @@ public class ConvergeApiRequest {
 	
 	private String authKey;
 	
-	private String productId;
+	private int productId;
 
 	public String getAuthKey() {
 		return authKey;
@@ -14,11 +14,11 @@ public class ConvergeApiRequest {
 		this.authKey = authKey;
 	}
 
-	public String getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
