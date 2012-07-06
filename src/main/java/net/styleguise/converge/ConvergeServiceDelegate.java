@@ -1,5 +1,8 @@
 package net.styleguise.converge;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 /**
  * Represents the service methods that the IP.Converge installation will remotely
  * invoke on the user's application.
@@ -11,6 +14,8 @@ package net.styleguise.converge;
  * @author Benjamin Possolo
  */
 public interface ConvergeServiceDelegate {
+	
+	void init(ServletContext context) throws ServletException;
 	
 	boolean handshakeStart(HandshakeStartRequest request);
 	

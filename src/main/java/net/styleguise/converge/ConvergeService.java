@@ -92,7 +92,7 @@ public class ConvergeService {
 		req.setProductId((Integer)params.get("reg_product_id"));
 		req.setConvergeUrl((String)params.get("converge_url"));
 		
-		if( ((Integer)params.get("handshake_completed")) == 1 )
+		if( ((Integer)params.get("handshake_completed")).intValue() == 1 )
 			req.setHandshakeCompleted(true);
 		else
 			req.setHandshakeCompleted(false);

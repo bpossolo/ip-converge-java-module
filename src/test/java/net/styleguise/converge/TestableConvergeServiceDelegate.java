@@ -1,7 +1,16 @@
 package net.styleguise.converge;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 public class TestableConvergeServiceDelegate implements ConvergeServiceDelegate {
 
+	@Override
+	public void init(ServletContext context) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public boolean handshakeStart(HandshakeStartRequest request) {
 		// TODO Auto-generated method stub
 		return false;
