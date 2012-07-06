@@ -416,7 +416,7 @@ public class ConvergeService {
 			delegate.getConvergeHandshakeInfo(request.getAuthKey(), request.getProductId());
 		
 		if( registeredInfo == null ){
-			log.warning("ConvergeServiceDelegate.getConvergeHandshakeInfo() returned null. The application developer must implement this method");
+			log.warning("ConvergeServiceDelegate.getConvergeHandshakeInfo() returned null");
 			throw new ConvergeException("Unable to authenticate XML-RPC request");
 		}
 		
@@ -425,5 +425,9 @@ public class ConvergeService {
 		
 		if( registeredInfo.getProductId() != request.getProductId() )
 			throw new ConvergeException("Request product id [" + request.getProductId() + "] does not match registered product id");
+		
+		if( ! registeredInfo.isActive() )
+			throw new ConvergeException("Converge handshake registration is not active");
 	}
+	
 }
