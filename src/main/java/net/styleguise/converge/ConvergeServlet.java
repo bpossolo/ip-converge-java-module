@@ -2,6 +2,8 @@ package net.styleguise.converge;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -15,6 +17,8 @@ import redstone.xmlrpc.interceptors.DebugInvocationInterceptor;
 @SuppressWarnings("serial")
 public class ConvergeServlet extends HttpServlet {
 	
+	private static final Logger log = Logger.getLogger(ConvergeServlet.class.getName());
+	
 	private ConvergeService convergeService;
 	
 	@Override
@@ -27,12 +31,19 @@ public class ConvergeServlet extends HttpServlet {
 			throw new ServletException("Init parameter [convergeServiceDelegateClass] must be specified");
 		
 		try{
+			log.log(Level.INFO, "Attempting to instantiate converge service delegate: {0}", delegateClass);
 			Class<?> clazz = Class.forName(delegateClass);
 			Object obj = clazz.newInstance();
-			if( obj instanceof ConvergeServiceDelegate )
-				convergeService = new ConvergeService((ConvergeServiceDelegate)obj);
-			else
+			if( obj instanceof ConvergeServiceDelegate ){
+				ConvergeServiceDelegate delegate = (ConvergeServiceDelegate)obj;
+				log.info("Initializing converge service delegate");
+				delegate.init(config.getServletContext());
+				convergeService = new ConvergeService(delegate);
+				log.info("Converge servlet ready to start serving.");
+			}
+			else{
 				throw new ServletException("The [convergeServiceDelegateClass] must be a subclass of " + ConvergeServiceDelegate.class.getName());
+			}
 		}
 		catch(InstantiationException e){
 			throw new ServletException("Unable to instantiate " + delegateClass + ". It should have a non-private, no-arg constructor", e);
