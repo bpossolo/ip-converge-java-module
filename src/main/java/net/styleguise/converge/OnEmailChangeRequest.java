@@ -6,6 +6,8 @@ public class OnEmailChangeRequest extends ConvergeApiRequest {
 	
 	private String oldEmail;
 	
+	private String newEmail;
+	
 	public String getAuth() {
 		return auth;
 	}
@@ -29,6 +31,4 @@ public class OnEmailChangeRequest extends ConvergeApiRequest {
 	public void setNewEmail(String newEmail) {
 		this.newEmail = newEmail;
 	}
-
-	private String newEmail;
 }
