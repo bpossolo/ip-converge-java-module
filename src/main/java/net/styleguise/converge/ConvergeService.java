@@ -129,7 +129,7 @@ public class ConvergeService {
 		
 		HandshakeRemoveRequest req = new HandshakeRemoveRequest();
 		req.setRegistrationCode((String)params.get("reg_code"));
-		req.setProductId((String)params.get("reg_product_id"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("reg_product_id")));
 		
 		boolean removed = delegate.handshakeRemove(req);
 		

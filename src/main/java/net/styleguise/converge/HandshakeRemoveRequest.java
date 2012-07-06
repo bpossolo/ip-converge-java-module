@@ -2,15 +2,15 @@ package net.styleguise.converge;
 
 public class HandshakeRemoveRequest {
 
-	private String productId;
+	private int productId;
 	
 	private String registrationCode;
 
-	public String getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
