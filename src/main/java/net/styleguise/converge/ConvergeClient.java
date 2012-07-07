@@ -16,11 +16,11 @@ public class ConvergeClient {
 	
 	private final String authKey;
 	
-	private final String productId;
+	private final int productId;
 	
 	private final XmlRpcClient rpcClient;
 	
-	public ConvergeClient(String convergeServerBaseUrl, String authKey, String productId) 
+	public ConvergeClient(String convergeServerBaseUrl, String authKey, int productId) 
 		throws MalformedURLException {
 		
 		this.authKey = authKey;
@@ -98,39 +98,29 @@ public class ConvergeClient {
 	 * @return the authentication response
 	 * @throws XmlRpcFault if an error occurs talking to converge
 	 */
-	public AuthenticationResponse authenticate(String email, String username, String password) throws XmlRpcFault {
-		
-		//TODO md5 hash the password
-		String passwordMd5 = null;
+	public AuthenticationResponse authenticate(String userId, AuthType authType, String password) throws XmlRpcFault {
 		
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("auth_key", authKey);
 		params.put("product_id", productId);
-		params.put("md5_once_password", passwordMd5);
+		params.put("md5_once_password", ConvergeUtil.md5(password));
 		
-		if( email == null )
-			params.put("username", username);
+		if( authType == AuthType.Username )
+			params.put("username", userId);
 		else
-			params.put("email_address", email);
+			params.put("email_address", userId);
 		
 		@SuppressWarnings("unchecked")
 		Map<String,Object> xmlResponse = 
-			(Map<String,Object>)rpcClient.invoke("convergeCheckUsername", new Object[]{params});
+			(Map<String,Object>)rpcClient.invoke("convergeAuthenticate", new Object[]{params});
 		
 		Integer complete = (Integer)xmlResponse.get("complete");
 		if( complete == null || complete != 1 )
 			log.warning("Response parameter [complete] is not equal to 1");
 		
-		String response = (String)xmlResponse.get("response");
-		String responseUsername = (String)xmlResponse.get("username");
-		String responseEmail = (String)xmlResponse.get("email");
-		String ipAddress = (String)xmlResponse.get("ipaddress");
-		//todo process unix joined time
-		
 		AuthenticationResponse authResponse = new AuthenticationResponse();
-		authResponse.setUsername(responseUsername);
-		authResponse.setEmail(responseEmail);
-		authResponse.setIpAddress(ipAddress);
+		
+		String response = (String)xmlResponse.get("response");
 		
 		if( "NO_USER".equals(response) ){
 			authResponse.setResponse(Response.NoUser);
@@ -149,6 +139,10 @@ public class ConvergeClient {
 		}
 		else if( "SUCCESS".equals(response) ){
 			authResponse.setResponse(Response.Success);
+			authResponse.setUsername((String)xmlResponse.get("username"));
+			authResponse.setEmail((String)xmlResponse.get("email"));
+			authResponse.setIpAddress((String)xmlResponse.get("ipaddress"));
+			authResponse.setJoined(ConvergeUtil.unixTimestampToDate((String)xmlResponse.get("joined")));
 		}
 		else if( "AUTH_FAILURE".equals(response) ){
 			authResponse.setResponse(Response.AuthFailure);
