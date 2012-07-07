@@ -13,8 +13,8 @@ public class ConvergeClientTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		String authKey = "d768f9cb3c0a5b64ea52dbd043e6023a";
-		int productId = 6;
+		String authKey = "3d40d8a29601dc2884fd68246c473986";
+		int productId = 9;
 		client = new ConvergeClient("http://www.styleguise.net/converge", authKey, productId);
 	}
 	
