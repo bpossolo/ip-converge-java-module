@@ -421,10 +421,10 @@ public class ConvergeService {
 		}
 		
 		if( ! registeredInfo.getAuthKey().equals(request.getAuthKey()) )
-			throw new ConvergeException("Request auth key [" + request.getAuthKey() + "] does not match registered auth key");
+			throw new ConvergeException("Request auth key [" + request.getAuthKey() + "] does not match registered auth key [" + registeredInfo.getAuthKey() + "]");
 		
 		if( registeredInfo.getProductId() != request.getProductId() )
-			throw new ConvergeException("Request product id [" + request.getProductId() + "] does not match registered product id");
+			throw new ConvergeException("Request product id [" + request.getProductId() + "] does not match registered product id [" + registeredInfo.getProductId() + "]");
 		
 		if( ! registeredInfo.isActive() )
 			throw new ConvergeException("Converge handshake registration is not active");
