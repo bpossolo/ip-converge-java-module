@@ -33,6 +33,12 @@ public interface ConvergeServiceDelegate {
 	
 	boolean onValidate(OnValidateRequest request);
 	
+	/**
+	 * This service method is called by IPConverge before importing members
+	 * and also when testing its connection to the remote app.
+	 * @param request the request parameters sent by IPConverge
+	 * @return info about the members contained in the remote app
+	 */
 	GetMembersInfoResponse getMembersInfo(ConvergeApiRequest request);
 	
 	ImportMembersResponse importMembers(ImportMembersRequest request);
