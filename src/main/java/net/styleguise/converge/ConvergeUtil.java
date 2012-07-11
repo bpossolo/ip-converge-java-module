@@ -3,8 +3,8 @@ package net.styleguise.converge;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Date;
-import java.util.Random;
 
 public class ConvergeUtil {
 	
@@ -64,9 +64,9 @@ public class ConvergeUtil {
 	 */
 	public static String generateSalt(){
 		
-		String legalChars = "0123456789ABCDEFGHIJKLKMNOPQRSTUVWXYZ!@#$%^&*";
+		String legalChars = "0123456789ABCDEFGHIJKLKMNOPQRSTUVWXYZ!@#$%^&*[]_<>,./{}+=-|";
 		char[] salt = new char[5];
-		Random random = new Random();
+		SecureRandom random = new SecureRandom();
 		
 		for( int i = 0; i < 5; i++ ){
 			int index = random.nextInt(legalChars.length());
