@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Random;
 
 public class ConvergeUtil {
 	
@@ -55,6 +56,23 @@ public class ConvergeUtil {
 		catch(UnsupportedEncodingException e){
 			throw new RuntimeException("Unable to generate md5 because UTF-8 encoding does not exist", e);
 		}
+	}
+	
+	/**
+	 * The salt used by IP.Converge and IP.Board is exactly 5 characters long.
+	 * @return a random, 5-character salt value
+	 */
+	public static String generateSalt(){
+		
+		String legalChars = "0123456789ABCDEFGHIJKLKMNOPQRSTUVWXYZ!@#$%^&*";
+		char[] salt = new char[5];
+		Random random = new Random();
+		
+		for( int i = 0; i < 5; i++ ){
+			int index = random.nextInt(legalChars.length());
+			salt[i] = legalChars.charAt(index);
+		}
+		return new String(salt);
 	}
 
 }
