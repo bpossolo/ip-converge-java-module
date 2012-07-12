@@ -1,8 +1,10 @@
 package net.styleguise.converge;
 
 import java.net.MalformedURLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import redstone.xmlrpc.XmlRpcClient;
@@ -149,6 +151,66 @@ public class ConvergeClient {
 		}
 		
 		return authResponse;
+	}
+	
+	/**
+	 * Call this method when a user registers in the remote application.
+	 * This method is important because it keeps the member list in 
+	 * IP.Converge in-sync with the member list in the remote application.
+	 * 
+	 * @param username the username (must be unique)
+	 * @param email the email address (must be unique)
+	 * @param password the clear text password
+	 * @param ipAddress the users ip address at the time of registration
+	 * @param validating true if the user validated their account (for example by clicking a link in an email), false otherwise
+	 * @param extraData optional user-specific information that can be used to increase the complexity of the final hashed password on IP.Converge
+	 * @param flag its uncler what this is for. according to the documentation it should almost always be true
+	 * @return the result of adding the member to IP.Converge
+	 * @throws XmlRpcFault
+	 */
+	public AddMemberResponse addMember(
+			String username, String email, String password, 
+			String ipAddress, boolean validating, 
+			String extraData, boolean flag) throws XmlRpcFault {
+		
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("auth_key", authKey);
+		params.put("product_id", productId);
+		params.put("email_address", email);
+		params.put("username", username);
+		params.put("md5_once_password", ConvergeUtil.md5(password));
+		params.put("ip_address", ipAddress);
+		params.put("unix_join_date", ConvergeUtil.dateToUnixTimestamp(new Date()));
+		params.put("validating", validating ? 1 : 0);
+		params.put("extra", extraData);
+		params.put("flag", flag ? 1 : 0);
+		
+		log.info("Sending convergeAddMember request to IP.Converge");
+		log.fine(params.toString());
+		
+		@SuppressWarnings("unchecked")
+		Map<String,Object> xmlResponse = 
+			(Map<String,Object>)rpcClient.invoke("convergeAddMember", new Object[]{params});
+		
+		Integer complete = (Integer)xmlResponse.get("complete");
+		if( complete == null || complete != 1 )
+			log.warning("Response parameter [complete] is not equal to 1");
+		
+		String response = (String)xmlResponse.get("response");
+		
+		if( "MISSING_DATA".equals(response) ){
+			return AddMemberResponse.MissingData;
+		}
+		else if( "EMAIL_IN_USE".equals(response) ){
+			return AddMemberResponse.EmailInUse;
+		}
+		else if( "SUCCESS".equals(response) ){
+			return AddMemberResponse.Success;
+		}
+		else{
+			log.log(Level.WARNING, "Unrecognized response code", response);
+			return null;
+		}
 	}
 
 }
