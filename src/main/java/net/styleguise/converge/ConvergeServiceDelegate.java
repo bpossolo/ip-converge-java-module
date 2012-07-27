@@ -4,8 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 /**
- * Represents the service methods that the IP.Converge installation will remotely
- * invoke on the user's application.
+ * Represents the service methods that the IP.Converge application will
+ * invoke on the remote application.
  * 
  * Application integrators are responsible for providing an implementation of this interface.
  * 
@@ -32,6 +32,8 @@ public interface ConvergeServiceDelegate {
 	boolean onUsernameChange(OnUsernameChangeRequest request);
 	
 	boolean onValidate(OnValidateRequest request);
+	
+	boolean onRegister(OnRegisterRequest request);
 	
 	/**
 	 * This service method is called by IPConverge before importing members

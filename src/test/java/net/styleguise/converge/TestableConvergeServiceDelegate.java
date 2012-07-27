@@ -91,5 +91,11 @@ public class TestableConvergeServiceDelegate implements ConvergeServiceDelegate 
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean onRegister(OnRegisterRequest request) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

@@ -361,6 +361,38 @@ public class ConvergeService {
 		return result;
 	}
 	
+	public Map<String,Object> onRegister(Map<String,Object> params){
+		
+		log.info("On register");
+		if( log.isLoggable(Level.FINE) )
+			log.fine(params.toString());
+		
+		OnRegisterRequest req = new OnRegisterRequest();
+		req.setAuthKey((String)params.get("auth_key"));
+		req.setProductId(ConvergeUtil.objToInt(params.get("product_id")));
+		req.setIpAddress((String)params.get("ip_address"));
+		req.setHashedPassword((String)params.get("md5_once_password"));
+		req.setEmail((String)params.get("email_address"));
+		req.setTimezone((Integer)params.get("timezone"));
+		req.setJoinDate(ConvergeUtil.unixTimestampToDate((Integer)params.get("unix_join_date")));
+		
+		int dstAutocorrect = (Integer)params.get("dst_autocorrect");
+		req.setDaylightSavingsTimeAutocorrect(dstAutocorrect == 1 ? true : false);
+		
+		int validating = (Integer)params.get("validating");
+		req.setValidating(validating == 1 ? true : false);
+		
+		authenticateRequest(req);
+		
+		boolean success = delegate.onRegister(req);
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("completed", new Integer(1));
+		result.put("response", success ? "SUCCESS" : "FAILED");
+		
+		return result;
+	}
+	
 	//----------------------------------------------------------------------
 	//Package protected methods (for testability)
 	//----------------------------------------------------------------------
