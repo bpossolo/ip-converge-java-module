@@ -7,51 +7,51 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ConvergeClientTest {
+public class ConvergeClientIT {
 	
 	private ConvergeClient client;
 	
 	@Before
 	public void setUp() throws Exception {
-		String authKey = "3d40d8a29601dc2884fd68246c473986";
-		int productId = 9;
-		client = new ConvergeClient("http://www.styleguise.net/converge", authKey, productId);
+		String authKey = "3d40d8a29601dc2asfa2da65fawe2hjkx";
+		int productId = 1;
+		client = new ConvergeClient("http://www.myserver.net/converge", authKey, productId);
 	}
 	
 	@Test
 	public void testCheckUsernameAvailable() throws Exception {
 		
-		assertFalse(client.checkUsernameAvailable("bpossolo"));
+		assertFalse(client.checkUsernameAvailable("tester"));
 		assertTrue(client.checkUsernameAvailable("billybobthornton"));
 	}
 	
 	@Test
 	public void testCheckEmailAvailable() throws Exception {
 		
-		assertFalse(client.checkEmailAvailable("bpossolo@gmail.com"));
+		assertFalse(client.checkEmailAvailable("tester@gmail.com"));
 		assertTrue(client.checkEmailAvailable("tommy@gun.com"));
 	}
 	
 	@Test
 	public void testAuthenticateByUsername() throws Exception {
 		
-		AuthenticationResponse resp = client.authenticate("TheCruise", AuthType.Username, "qualityRus");
+		AuthenticationResponse resp = client.authenticate("tester", AuthType.Username, "somepass");
 		assertEquals(Response.Success, resp.getResponse());
-		assertEquals("bpossolo+1@gmail.com", resp.getEmail());
+		assertEquals("tester@gmail.com", resp.getEmail());
 	}
 	
 	@Test
 	public void testAuthenticateByEmail() throws Exception {
 		
-		AuthenticationResponse resp = client.authenticate("bpossolo+1@gmail.com", AuthType.Email, "qualityRus");
+		AuthenticationResponse resp = client.authenticate("tester@gmail.com", AuthType.Email, "somepass");
 		assertEquals(Response.Success, resp.getResponse());
-		assertEquals("TheCruise", resp.getUsername());
+		assertEquals("tester", resp.getUsername());
 	}
 	
 	@Test
 	public void testAuthenticateBadPass() throws Exception {
 		
-		AuthenticationResponse resp = client.authenticate("TheCruise", AuthType.Username, "wrongpass");
+		AuthenticationResponse resp = client.authenticate("tester", AuthType.Username, "wrongpass");
 		assertEquals(Response.WrongAuth, resp.getResponse());
 	}
 	
