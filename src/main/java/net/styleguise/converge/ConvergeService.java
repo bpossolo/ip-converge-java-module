@@ -327,12 +327,19 @@ public class ConvergeService {
 		
 		ConvergeLoginResponse response = delegate.convergeLogin(req);
 		
+		String sessionId = response.getSessionId();
+		if( sessionId == null )
+			sessionId = "";
+		String loginKey = response.getLoginKey();
+		if( loginKey == null )
+			loginKey = "";
+		
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put("complete", 1);
 		result.put("response", response.isSuccess() ? "SUCCESS" : "FAILED");
-		result.put("session_id", response.getSessionId());
+		result.put("session_id", sessionId);
 		result.put("member_id", response.getMemberId());
-		result.put("log_in_key", response.getLoginKey());
+		result.put("log_in_key", loginKey);
 		result.put("__cookie__serialized64__", encodeCookies(response.getCookies()));
 		
 		return result;
@@ -398,6 +405,10 @@ public class ConvergeService {
 	//----------------------------------------------------------------------
 	
 	String encodeCookies(List<ConvergeCookie> cookies) {
+		
+		if( cookies == null || cookies.isEmpty() )
+			return "";
+		
 		try{
 			String json = objectMapper.writeValueAsString(cookies);
 			return convertJsonToEncodedPhpArray(json);

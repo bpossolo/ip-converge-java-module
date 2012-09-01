@@ -51,6 +51,13 @@ public interface ConvergeServiceDelegate {
 	
 	String getProductName();
 	
+	/**
+	 * The remote applications product code.
+	 * Product code length must be <= 9 characters.
+	 * Must match product code on Converge server in file:
+	 * CONVERGE_HOME/api/modules/<PRODUCT_CODE>/<PRODUCT_CODE>.php
+	 * @return the product code
+	 */
 	String getProductCode();
 	
 	ConvergeHandshakeInfo getConvergeHandshakeInfo(String authKey, int productId);
